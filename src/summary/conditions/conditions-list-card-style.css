@@ -1,6 +1,6 @@
 .conditionsListHeader {
   display: grid;
-  grid-template-columns: 50% 30% 20%;
+  grid-template-columns: 50% 30% 20% 5%;
   justify-content: space-between;
   padding: 0.625rem 1.25rem 0.625rem 1rem;
   border-bottom: 1px solid var(--omrs-color-bg-low-contrast);
@@ -9,11 +9,16 @@
 
 .conditionsListContent {
   display: grid;
-  grid-template-columns:  50% 30% 20%;
+  grid-template-columns:  50% 30% 20% 5%;
   justify-content: space-between;
   padding: 0.625rem 1.25rem 0.625rem 1rem;
   border-bottom: 1px solid var(--omrs-color-bg-low-contrast);
   align-items: center;
+}
+
+.conditionStatusInactive {
+  background-color: var(--omrs-color-bg-medium-contrast);
+  color: var(--omrs-color-ink-medium-contrast);
 }
 
 .conditionsListContent:hover {

@@ -25,7 +25,7 @@ export default function ConditionsCard(props: ConditionsCardProps) {
   });
 
   return (
-    <SummaryCard name="Conditions" match={props.match} level2="conditions">
+    <SummaryCard name="Conditions" match={props.match} linkTo="conditions">
       <SummaryCardRow>
         <SummaryCardRowContent>
           <HorizontalLabelValue

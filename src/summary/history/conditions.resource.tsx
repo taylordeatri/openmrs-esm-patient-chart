@@ -59,7 +59,7 @@ const mockPatientConditionSearchResponse = {
         subject: {
           reference: "Patient/D1A903924D4443A7A388778D77D86155"
         },
-        clinicalStatus: "active",
+        clinicalStatus: "resolved",
         code: {
           coding: {
             system: "http://snomed.info/sct",
@@ -68,7 +68,9 @@ const mockPatientConditionSearchResponse = {
           },
           text: "Fever"
         },
-        onsetDateTime: "2015-06-22"
+        onsetDateTime: "2015-06-22",
+        abatementDateTime: "2015-06-30"
+
       }
     },
     {
