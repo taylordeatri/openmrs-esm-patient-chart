@@ -88,10 +88,10 @@ export default function ConditionsListCard(props: ConditionsCardProps) {
       </CardHeader>
       {patientConditions && patientConditions.entry.map(condition => {
           return (
-            <CardRow className={style.conditionsListContent} match={props.match} cardId={condition.resource.id}>
+            <CardRow className={isConditionInactive(condition) && style.conditionStatusInactive || style.conditionsListContent} match={props.match} cardId={condition.resource.id}>
               <CardItem>{condition.resource.code.text}</CardItem>
               <CardItem>{dayjs(condition.resource.onsetDateTime).format("MMM-YYYY")}</CardItem>
-              <CardItem className={isConditionInactive(condition) && style.conditionStatusInactive}>{getConditionStatus(condition)}</CardItem>
+              <CardItem>{getConditionStatus(condition)}</CardItem>
             </CardRow>
           );
         })}
