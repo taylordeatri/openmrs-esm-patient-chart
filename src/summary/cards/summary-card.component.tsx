@@ -6,25 +6,22 @@ import { render } from "@testing-library/react";
 
 export default function SummaryCard(props: SummaryCardProps) {
   return (
-    <div className={`omrs-card ${styles.card}`} style={props.styles}>
-      <div className={styles.header}>
-        <h2 className={`omrs-margin-0`}>{props.name}</h2>
+    <div style={props.styles} className={`omrs-card ${styles.card}`}>
+        <div className={styles.title}>
+          <h2 className={`omrs-margin-0`}>{props.name}</h2>
         { props.linkTo &&
-        <Link to={ (props.linkTo && (props.match.url + "/" + props.linkTo) ) || ''}>
+        <Link to={(props.match.url + "/" + props.linkTo)}>
           <svg className="omrs-icon" fill="rgba(0, 0, 0, 0.54)">
               <use xlinkHref="#omrs-icon-chevron-right" />
           </svg>
         </Link>
         }
+        <button className={`omrs-unstyled ${styles.addBtn}`}>Add</button>
       </div>
       {props.children}
     </div>
   );
 }
-
-SummaryCard.defaultProps = {
-  styles: {}
-};
 
 type SummaryCardProps = {
   name: string;
@@ -33,3 +30,5 @@ type SummaryCardProps = {
   styles?: React.CSSProperties;
   linkTo?: string;
 };
+
+type Styles = {};

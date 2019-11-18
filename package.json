@@ -11,7 +11,8 @@
     "prettier": "prettier",
     "typescript": "tsc",
     "prepublishOnly": "npm run build",
-    "test": "jest --config jest.config.json"
+    "test": "jest --config jest.config.json",
+    "coverage": "npm test -- --coverage"
   },
   "repository": {
     "type": "git",
@@ -25,7 +26,7 @@
   ],
   "husky": {
     "hooks": {
-      "pre-commit": "pretty-quick --staged && concurrently -n eslint,test,typescript 'npm run lint' 'npm test' 'npm run typescript'"
+      "pre-commit": "pretty-quick --staged && concurrently npm:test npm:lint npm:typescript npm:coverage"
     }
   },
   "types": "src/openmrs-esm-patient-chart.tsx",
@@ -78,7 +79,7 @@
     "react-dom": "^16.9.0"
   },
   "author": "",
-  "license": "MIT",
+  "license": "MPL-2.0",
   "bugs": {
     "url": "https://github.com/openmrs/openmrs-esm-patient-chart/issues"
   },
