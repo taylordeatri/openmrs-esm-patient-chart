@@ -18,7 +18,12 @@
 }
 .title {
   display: flex;
-  align-items: center;
+  justify-content: space-between;
+  align-items: stretch;
+}
+.title_right {
+  display: flex;
+  align-items: stretch;
 }
 :global(.omrs-card) button.addBtn {
   color: var(--omrs-color-ink-medium-contrast);

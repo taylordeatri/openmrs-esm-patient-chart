@@ -18,14 +18,14 @@ export default function ConditionsCard(props: ConditionsCardProps) {
       props.currentPatient.identifier[0].value,
       abortController
     )
-      .then(condition => setPatientConditions(condition))
+      .then(condition => setPatientConditions(condition.data))
       .catch(createErrorHandler());
 
     return () => abortController.abort();
   });
 
   return (
-    <SummaryCard name="Conditions" match={props.match} linkTo="conditions">
+    <SummaryCard name="Conditions" match={props.match} linkTo="condition">
       <SummaryCardRow>
         <SummaryCardRowContent>
           <HorizontalLabelValue

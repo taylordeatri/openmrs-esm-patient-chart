@@ -5,7 +5,7 @@ export default function CardRow(props: CardRowProps) {
   return (
     <div className={props.className || "omrs-type-body-regular"} style={props.styles}>
       {props.children}
-      {props.cardId && <Link to={props.match.url + "/" + props.cardId}>
+      {props.cardId && <Link to={props.match && props.match.url + "/" + props.cardId}>
           <svg className="omrs-icon" fill="rgba(0, 0, 0, 0.54)">
               <use xlinkHref="#omrs-icon-chevron-right" />
           </svg>
@@ -21,7 +21,7 @@ CardRow.defaultProps = {
 };
 
 type CardRowProps = {
-  match?: match;
+  match: match;
   cardId?: string;
   children: React.ReactNode;
   styles?: React.CSSProperties;
