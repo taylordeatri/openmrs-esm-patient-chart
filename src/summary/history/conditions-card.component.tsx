@@ -8,21 +8,30 @@ import { match } from "react-router";
 import { performPatientConditionSearch } from "./conditions.resource";
 import { createErrorHandler } from "@openmrs/esm-error-handling";
 import HorizontalLabelValue from "../cards/horizontal-label-value.component";
+import { useCurrentPatient } from "@openmrs/esm-api";
 
 export default function ConditionsCard(props: ConditionsCardProps) {
   const [patientConditions, setPatientConditions] = React.useState(null);
+  const [
+    isLoadingPatient,
+    patient,
+    patientUuid,
+    patientErr
+  ] = useCurrentPatient();
 
   React.useEffect(() => {
-    const abortController = new AbortController();
-    performPatientConditionSearch(
-      props.currentPatient.identifier[0].value,
-      abortController
-    )
-      .then(condition => setPatientConditions(condition.data))
-      .catch(createErrorHandler());
+    if (patient) {
+      const abortController = new AbortController();
+      performPatientConditionSearch(
+        patient.identifier[0].value,
+        abortController
+      )
+        .then(condition => setPatientConditions(condition.data))
+        .catch(createErrorHandler());
 
-    return () => abortController.abort();
-  });
+      return () => abortController.abort();
+    }
+  }, [patient]);
 
   return (
     <SummaryCard name="Conditions" match={props.match} linkTo="condition">
@@ -43,20 +52,23 @@ export default function ConditionsCard(props: ConditionsCardProps) {
         </SummaryCardRowContent>
       </SummaryCardRow>
       {patientConditions &&
-        patientConditions.entry.map(condition => {
-          return (
-            <SummaryCardRow key={condition.resource.id} linkTo="/">
-              <HorizontalLabelValue
-                label={condition.resource.code.text}
-                labelStyles={{ fontWeight: 500 }}
-                value={dayjs(condition.resource.onsetDateTime).format(
-                  "MMM-YYYY"
-                )}
-                valueStyles={{ fontFamily: "Work Sans" }}
-              />
-            </SummaryCardRow>
-          );
-        })}
+        patientConditions.entry
+          .map(condition => condition.resource)
+          .map(condition => {
+            return (
+              <SummaryCardRow
+                key={condition.id}
+                linkTo={"chart/condition/" + condition.id}
+              >
+                <HorizontalLabelValue
+                  label={condition.code.text}
+                  labelStyles={{ fontWeight: 500 }}
+                  value={dayjs(condition.onsetDateTime).format("MMM-YYYY")}
+                  valueStyles={{ fontFamily: "Work Sans" }}
+                />
+              </SummaryCardRow>
+            );
+          })}
       <div className={style.conditionMore}>
         <svg className="omrs-icon">
           <use
@@ -72,5 +84,4 @@ export default function ConditionsCard(props: ConditionsCardProps) {
 
 type ConditionsCardProps = {
   match: match;
-  currentPatient: any;
 };

@@ -6,14 +6,13 @@ import ConditionsListCard from "./conditions-list-card.component";
 
 export default function ConditionsSection(props: HistorySectionProps) {
   return (
-        <SummarySectionCards match={props.match}>
-          <ConditionsListCard match={props.match} currentPatient={props.currentPatient} conditions={props.conditions}/>
-        </SummarySectionCards>
-  )
+    <SummarySectionCards match={props.match}>
+      <ConditionsListCard match={props.match} conditions={props.conditions} />
+    </SummarySectionCards>
+  );
 }
 
 type HistorySectionProps = {
-  currentPatient: fhir.Patient;
   conditions: any;
   match: match;
 };

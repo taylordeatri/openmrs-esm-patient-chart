@@ -1,9 +1,7 @@
 import React from "react";
 
 export default function CardHeaderItem(props: CardHeaderItemProps) {
-  return (
-    <p className={props.className}>{props.children}</p>
-  );
+  return <p className={props.className}>{props.children}</p>;
 }
 
 CardHeaderItem.defaultProps = {

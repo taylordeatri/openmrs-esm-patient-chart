@@ -8,6 +8,20 @@ export function performPatientConditionSearch(
   return Promise.resolve(mockPatientConditionSearchResponse);
 }
 
+export function lookupPatientConditionById(
+  conditionId: string,
+  abortController: AbortController
+) {
+  const condition = mockPatientConditionSearchResponse.data.entry
+    .filter(function(entry) {
+      return entry.resource.id === conditionId;
+    })
+    .map(function(entry) {
+      return entry.resource;
+    })[0];
+  return Promise.resolve(condition);
+}
+
 const mockPatientConditionSearchResponse = {
   data: {
     resourceType: "Bundle",
@@ -71,7 +85,6 @@ const mockPatientConditionSearchResponse = {
           },
           onsetDateTime: "2015-06-22",
           abatementDateTime: "2015-06-30"
-
         }
       },
       {

@@ -7,40 +7,20 @@ import CardHeaderItem from "../../cards/card-header-item.component";
 import CardRow from "../../cards/card-row.component";
 import CardItem from "../../cards/card-item.component";
 import { match } from "react-router";
+import { useCurrentPatient } from "@openmrs/esm-api";
+import {
+  getConditionAbatementDate,
+  getConditionStatus,
+  isConditionInactive
+} from "./condition-utils";
 
 export default function ConditionListCard(props: ConditionCardProps) {
-  function getConditionAbatementDate(condition:any) {
-    const abatementStr = 
-      ( condition.abatementDateTime && dayjs(condition.abatementDateTime).format("MMM-YYYY") ) ||
-      ( condition.abatementAge && condition.abatementAge ) ||
-      ( condition.abatementBoolean && condition.abatementBoolean ) ||
-      ( condition.abatementPeriod && dayjs(condition.abatementPeriod.end).format("MMM-YYYY")) ||
-      ( condition.abatementRange && dayjs(condition.abatementPeriod.high).format("MMM-YYYY")) ||
-      ( condition.abatementString && condition.abatementString);
-    return abatementStr;
-  }
-
-  function isConditionInactive(condition) {
-    if ( condition.resource.clinicalStatus && 
-      (
-        condition.resource.clinicalStatus === "inactive" || 
-        condition.resource.clinicalStatus === "resolved" ||
-        condition.resource.clinicalStatus === "remission" 
-      ) ) {
-        return true;
-      } else {
-        return false;
-      }
-}
-
-  function getConditionStatus(condition) {
-    if ( isConditionInactive(condition) ) {
-      const condAbatementDateStr = getConditionAbatementDate(condition.resource);
-      return "Inactive" + ( condAbatementDateStr && (" since " + condAbatementDateStr ) || "");
-    } else {
-      return "Active";
-    }
-  }
+  const [
+    isLoadingPatient,
+    patient,
+    patientUuid,
+    patientErr
+  ] = useCurrentPatient();
 
   /*
       <div className={style.conditionsListHeader}>
@@ -58,22 +38,37 @@ export default function ConditionListCard(props: ConditionCardProps) {
   */
 
   return (
-    <SummaryCard name="Conditions" match={props.match} styles={style} >
+    <SummaryCard name="Conditions" match={props.match} styles={style}>
       <CardHeader className={style.conditionsListHeader}>
         <CardHeaderItem>CONDITION</CardHeaderItem>
         <CardHeaderItem>ONSET DATE</CardHeaderItem>
         <CardHeaderItem>STATUS</CardHeaderItem>
         <div />
       </CardHeader>
-      {props.conditions && props.conditions.map(condition => {
-          return (
-            <CardRow className={isConditionInactive(condition) && style.conditionStatusInactive || style.conditionsListContent} match={props.match} cardId={condition.resource.id}>
-              <CardItem>{condition.resource.code.text}</CardItem>
-              <CardItem>{dayjs(condition.resource.onsetDateTime).format("MMM-YYYY")}</CardItem>
-              <CardItem>{getConditionStatus(condition)}</CardItem>
-            </CardRow>
-          );
-        })}
+      {props.conditions &&
+        props.conditions
+          .map(condition => condition.resource)
+          .map(condition => {
+            return (
+              <React.Fragment key={condition.id}>
+                <CardRow
+                  className={
+                    (isConditionInactive(condition) &&
+                      style.conditionStatusInactive) ||
+                    style.conditionsListContent
+                  }
+                  match={props.match}
+                  cardId={"condition/" + condition.id}
+                >
+                  <CardItem>{condition.code.text}</CardItem>
+                  <CardItem>
+                    {dayjs(condition.onsetDateTime).format("MMM-YYYY")}
+                  </CardItem>
+                  <CardItem>{getConditionStatus(condition)}</CardItem>
+                </CardRow>
+              </React.Fragment>
+            );
+          })}
       <div className={style.conditionMore}>
         <svg className="omrs-icon">
           <use
@@ -89,6 +84,5 @@ export default function ConditionListCard(props: ConditionCardProps) {
 
 type ConditionCardProps = {
   match: match;
-  currentPatient: any;
   conditions: any;
 };

@@ -1,0 +1,67 @@
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: eff0f2;
+}
+
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  color: 6d6c6f;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li.fake_link {
+  color: 191919;
+}
+
+li.dir {
+  color: 6d6c6f;
+}
+
+li a:hover {
+  color: 3c42cf;
+}
+
+.conditionEditHeader {
+  background-color: f8f8f8;
+  margin: 1px 0px;
+  border-radius: 5px;
+  text-align: middle;
+  box-shadow: 1px 1px f8f8f8;
+  padding: 1px 1px;
+}
+
+.conditionEditParagraph {
+  background-color: ffffff;
+  margin: 1px 0px;
+  border-radius: 5px;
+  box-shadow: 4px 4px e2e4e4;
+  padding: 1px 1px;
+}
+
+.conditionEditSelect {
+  padding: 1px 1px;
+}
+
+div.footer {
+  background-color: ffffff;
+  box-shadow: 1px 1px ffffff;
+  padding: 3px 3px;
+  object-position: bottom;
+}
+
+button.cancle {
+  align-self: left;
+}
+
+button.signnsave {
+  align-self: right;
+}

@@ -6,31 +6,35 @@ import ConditionsListCard from "./conditions-list-card.component";
 import styles from "./condition-card-level-two.css";
 import ConditionsSection from "./conditions-section.component";
 import { createErrorHandler } from "@openmrs/esm-error-handling";
+import { useCurrentPatient } from "@openmrs/esm-api";
 
 export function ConditionCardLevelTwo(props: ConditionCardLevelTwoProps) {
   const [patientConditions, setPatientConditions] = React.useState(null);
+  const [
+    isLoadingPatient,
+    patient,
+    patientUuid,
+    patientErr
+  ] = useCurrentPatient();
 
   React.useEffect(() => {
-    const abortController = new AbortController();
+    if (patient) {
+      const abortController = new AbortController();
 
-    performPatientConditionSearch(
-      props.currentPatient.id,
-      abortController
-    )
-    .then(condition => setPatientConditions(condition.data.entry))
-    .catch(createErrorHandler());
-    return () => abortController.abort();
-  }, [props.currentPatient.identifier[0].value]);
+      performPatientConditionSearch(patient.id, abortController)
+        .then(condition => setPatientConditions(condition.data.entry))
+        .catch(createErrorHandler());
+      return () => abortController.abort();
+    }
+  }, [patient]);
 
- return (
-  <SummarySectionCards match={props.match}>
-    <ConditionsListCard match={props.match} currentPatient={props.currentPatient} conditions={patientConditions}/>
-  </SummarySectionCards>
- )
+  return (
+    <SummarySectionCards match={props.match}>
+      <ConditionsListCard match={props.match} conditions={patientConditions} />
+    </SummarySectionCards>
+  );
 }
 
-type ConditionCardLevelTwoProps =
-{
-  currentPatient: fhir.Patient;
+type ConditionCardLevelTwoProps = {
   match: match;
 };

@@ -1,9 +1,7 @@
 import React from "react";
 
 export default function CardItem(props: CardItemProps) {
-  return (
-    <p className={props.className || "omrs-bold"}>{props.children}</p>
-  );
+  return <p className={props.className || "omrs-bold"}>{props.children}</p>;
 }
 
 CardItem.defaultProps = {
