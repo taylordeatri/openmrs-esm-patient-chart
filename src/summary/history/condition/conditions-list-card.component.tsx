@@ -9,7 +9,7 @@ import CardItem from "../../cards/card-item.component";
 import { match } from "react-router";
 import { useCurrentPatient } from "@openmrs/esm-api";
 import {
-  getConditionAbatementDate,
+  getConditionAbatementDateMonth,
   getConditionStatus,
   isConditionInactive
 } from "./condition-utils";

@@ -1,6 +1,27 @@
 import dayjs from "dayjs";
 
+export enum CONDITION_STATUS {
+  ACTIVE = "active",
+  INACTIVE = "inactive",
+  HISTORYOF = "history_of",
+  RESOLVED = "resolved"
+}
+
 export function getConditionAbatementDate(condition: any) {
+  const abatementStr =
+    (condition.abatementDateTime &&
+      dayjs(condition.abatementDateTime).format("MM/DD/YYYY")) ||
+    (condition.abatementAge && condition.abatementAge) ||
+    (condition.abatementBoolean && condition.abatementBoolean) ||
+    (condition.abatementPeriod &&
+      dayjs(condition.abatementPeriod.end).format("MM/DD/YYYY")) ||
+    (condition.abatementRange &&
+      dayjs(condition.abatementPeriod.high).format("MM/DD/YYYY")) ||
+    (condition.abatementString && condition.abatementString);
+  return abatementStr;
+}
+
+export function getConditionAbatementDateMonth(condition: any) {
   const abatementStr =
     (condition.abatementDateTime &&
       dayjs(condition.abatementDateTime).format("MMM-YYYY")) ||

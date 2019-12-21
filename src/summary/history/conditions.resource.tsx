@@ -12,13 +12,11 @@ export function lookupPatientConditionById(
   conditionId: string,
   abortController: AbortController
 ) {
+  console.log("Getting condition for id = " + conditionId);
   const condition = mockPatientConditionSearchResponse.data.entry
-    .filter(function(entry) {
-      return entry.resource.id === conditionId;
-    })
-    .map(function(entry) {
-      return entry.resource;
-    })[0];
+    .filter(entry => entry.resource.id === conditionId)
+    .map(entry => entry.resource)[0];
+  console.log("found condition " + condition);
   return Promise.resolve(condition);
 }
 
